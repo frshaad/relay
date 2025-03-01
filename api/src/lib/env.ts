@@ -3,6 +3,7 @@ import { z } from 'zod';
 
 export const environmentSchema = z.object({
   PORT: z.coerce.number(),
+  DB_URI: z.string(),
 });
 
 export type Environment = z.infer<typeof environmentSchema>;
