@@ -1,6 +1,11 @@
 import 'dotenv/config';
+import { z } from 'zod';
 
-import { type Environment, environmentSchema } from './schema';
+export const environmentSchema = z.object({
+  PORT: z.coerce.number(),
+});
+
+export type Environment = z.infer<typeof environmentSchema>;
 
 export function validateEnvironment(): Environment {
   // eslint-disable-next-line n/no-process-env
