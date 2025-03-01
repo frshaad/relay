@@ -1,3 +1,4 @@
+/* eslint-disable n/no-process-env */
 import 'dotenv/config';
 import { z } from 'zod';
 
@@ -6,22 +7,16 @@ export const environmentSchema = z.object({
   DB_URI: z.string(),
 });
 
-export type Environment = z.infer<typeof environmentSchema>;
+export const env = environmentSchema.parse(process.env);
 
-export function validateEnvironment(): Environment {
-  // eslint-disable-next-line n/no-process-env
+export function validateEnvironment() {
   const parsed = environmentSchema.safeParse(process.env);
 
   if (!parsed.success) {
-    console.error(
-      '❌ Invalid environment variables:',
-      parsed.error.flatten().fieldErrors,
-    );
-    throw new Error('Invalid environment variables');
+    const errorMessage = Object.entries(parsed.error.flatten().fieldErrors)
+      .map(([key, errors]) => `${key}: ${errors?.join(', ')}`)
+      .join('\n');
+
+    throw new Error(`Invalid environment variables:\n${errorMessage}`);
   }
-
-  return parsed.data;
 }
-
-const env = validateEnvironment();
-export default env;

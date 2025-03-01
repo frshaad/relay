@@ -1,10 +1,12 @@
 import app from './app';
 import { connectDB } from './lib/db';
-import env from './lib/env';
+import { env } from './lib/env';
+import { log } from './lib/logger';
 
-const PORT = env.PORT || 5001;
-
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}...`);
-  connectDB();
+app.listen(env.PORT, () => async () => {
+  try {
+    await connectDB();
+  } catch (error) {
+    log.error(`Couldn't connect to server: ${error}`);
+  }
 });
