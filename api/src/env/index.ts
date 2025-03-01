@@ -1,3 +1,5 @@
+import 'dotenv/config';
+
 import { type Environment, environmentSchema } from './schema';
 
 export function validateEnvironment(): Environment {

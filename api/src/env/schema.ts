@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const environmentSchema = z.object({
-  NODE_ENV: z.enum(['development', 'production']),
+  PORT: z.coerce.number(),
 });
 
 export type Environment = z.infer<typeof environmentSchema>;
