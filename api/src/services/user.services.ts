@@ -26,7 +26,10 @@ export const UserService = {
     res: Response,
   ): Promise<{ user: UserResponse }> {
     const { email, fullname, password } = data;
-    const normalizedEmail = email.toLowerCase();
+
+    if (!email || !fullname || !password) {
+      throw new ValidationError(`All fields are required.`);
+    }
 
     if (password.length < PASSWORD_MIN_LENGTH) {
       throw new ValidationError(
@@ -34,12 +37,19 @@ export const UserService = {
       );
     }
 
-    const existingUser = await User.findOne({
-      equals: { email: normalizedEmail },
-    });
+    const normalizedEmail = email.toLowerCase();
 
-    if (existingUser) {
-      throw new ValidationError('Email is already in use');
+    try {
+      const existingUser = await User.findOne({
+        email: normalizedEmail,
+      });
+
+      if (existingUser) {
+        throw new ValidationError('Email is already in use');
+      }
+    } catch (error) {
+      console.error('Error checking existing user:', error);
+      throw error;
     }
 
     const hashedPassword = await hashPassword(password);

@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express';
 
-import { AppError } from '../lib/errors';
+import { AppError, ValidationError } from '../lib/errors';
 import { UserService } from '../services/user.services';
 
 export async function signUp(req: Request, res: Response) {
@@ -21,18 +21,26 @@ export async function signUp(req: Request, res: Response) {
       data: { user },
     });
   } catch (error) {
-    if (error instanceof AppError) {
-      res.status(error.statusCode).json({
+    console.error('Signup error:', error);
+
+    if (error instanceof ValidationError) {
+      return res.status(400).json({
         status: 'error',
         message: error.message,
       });
-    } else {
-      console.error('Error in Sign Up Controller:', error);
-      res.status(500).json({
+    }
+
+    if (error instanceof AppError) {
+      return res.status(error.statusCode).json({
         status: 'error',
-        message: 'Internal Server Error',
+        message: error.message,
       });
     }
+
+    res.status(500).json({
+      status: 'error',
+      message: 'Internal Server Error',
+    });
   }
 }
 
