@@ -1,0 +1,87 @@
+{
+  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "ignoreUnknown": false,
+    "ignore": ["node_modules/**/*", ".react-router/**/*"]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space"
+  },
+  "organizeImports": {
+    "enabled": true
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "complexity": {
+        "noExcessiveCognitiveComplexity": "warn",
+        "noUselessStringConcat": "warn",
+        "useDateNow": "warn",
+        "useSimplifiedLogicExpression": "warn"
+      },
+      "correctness": {
+        "noConstantMathMinMaxClamp": "warn",
+        "noUndeclaredVariables": "warn",
+        "noUnusedFunctionParameters": "warn",
+        "noUnusedImports": "warn",
+        "noUnusedVariables": "warn",
+        "useHookAtTopLevel": "error"
+      },
+      "performance": {
+        "noBarrelFile": "error",
+        "noReExportAll": "warn"
+      },
+      "style": {
+        "noImplicitBoolean": "warn",
+        "noNegationElse": "warn",
+        "noShoutyConstants": "warn",
+        "noYodaExpression": "warn",
+        "useBlockStatements": "warn",
+        "useCollapsedElseIf": "warn",
+        "useDefaultSwitchClause": "warn",
+        "useExplicitLengthCheck": "warn",
+        "useFilenamingConvention": "error",
+        "useForOf": "warn",
+        "useNamingConvention": "warn",
+        "useShorthandAssign": "warn",
+        "useThrowNewError": "warn",
+        "useThrowOnlyError": "warn"
+      },
+      "suspicious": {
+        "noEmptyBlockStatements": "warn",
+        "noEvolvingTypes": "warn",
+        "useAwait": "warn",
+        "useErrorMessage": "warn",
+        "useNumberToFixedDigitsArgument": "warn"
+      }
+    }
+  },
+  "javascript": {
+    "globals": ["React"],
+    "formatter": {
+      "quoteStyle": "single"
+    }
+  },
+  "json": {
+    "formatter": {}
+  },
+  "overrides": [
+    {
+      "include": ["typings/*.d.ts"],
+      "linter": {
+        "rules": {
+          "style": {
+            "useNamingConvention": "off"
+          }
+        }
+      }
+    }
+  ]
+}
